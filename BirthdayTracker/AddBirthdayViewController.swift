@@ -15,11 +15,17 @@ class AddBirthdayViewController: UIViewController {
   }
   
   @IBAction func saveTapped(_ sender: UIBarButtonItem) {
-    print("Нажата кнопка сохранения")
     
+    // Данные из формы
     let firstName = firstNameTextField.text ?? ""
     let lastName = lastNameTextField.text ?? ""
-    print("Привет! Меня зовут \(firstName) \(lastName).")
+    let birthDate = birthdayPicker.date
+    let newBirthDay = Birthday(firstName: firstName, lastName: lastName, birthDate: birthDate)
+    
+    print("Создана запись о дне рождения!")
+    print("Имя: \(newBirthDay.firstName)")
+    print("Фамилия: \(newBirthDay.lastName)")
+    print("День рождения: \(newBirthDay.birthDate)")
   }
 }
 
