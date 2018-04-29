@@ -1,14 +1,7 @@
-//
-//  BirthdaysTableViewController.swift
-//  BirthdayTracker
-//
-//  Created by Riley Usagi on 29.04.2018.
-//  Copyright © 2018 Riley Usagi. All rights reserved.
-//
-
 import UIKit
+import CoreData
 
-class BirthdaysTableViewController: UITableViewController, AddBirthdayViewControllerDelegate {
+class BirthdaysTableViewController: UITableViewController {
   
   
   // Дни рождения
@@ -24,6 +17,23 @@ class BirthdaysTableViewController: UITableViewController, AddBirthdayViewContro
     dateFormatter.timeStyle = .none
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    let fetchRequest = Birthday.fetchRequest() as NSFetchRequest<Birthday>
+    let sortDescriptor1 = NSSortDescriptor(key: "lastName", ascending: true)
+    let sortDescriptor2 = NSSortDescriptor(key: "firstName", ascending: true)
+    fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
+    
+    do {
+      birthdays = try context.fetch(fetchRequest)
+    } catch let error {
+      print("Не удалось загрузить данные из-за ошибки: \(error).")
+    }
+    tableView.reloadData()
+  }
+  
   // MARK: - Table view data source
   
   override func numberOfSections(in tableView: UITableView) -> Int {
@@ -37,45 +47,41 @@ class BirthdaysTableViewController: UITableViewController, AddBirthdayViewContro
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "birthdayCellIdentifier", for: indexPath)
     let birthday = birthdays[indexPath.row]
-    cell.textLabel?.text = birthday.firstName + " " + birthday.lastName
-    cell.detailTextLabel?.text = dateFormatter.string(from: birthday.birthDate)
+    let firstName = birthday.firstName ?? ""
+    let lastName = birthday.lastName ?? ""
+    cell.textLabel?.text=firstName + " " + lastName
+    
+    if let date = birthday.birthdate as Date? {
+      cell.detailTextLabel?.text = dateFormatter.string(from: date)
+    } else {
+      cell.detailTextLabel?.text = " "
+    }
     
     return cell
   }
   
-  
-  /*
-   // Override to support conditional editing of the table view.
-   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-   // Return false if you do not want the specified item to be editable.
-   return true
-   }
-   */
-  
-  /*
-   // Override to support editing the table view.
-   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-   if editingStyle == .delete {
-   // Delete the row from the data source
-   tableView.deleteRows(at: [indexPath], with: .fade)
-   } else if editingStyle == .insert {
-   // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-   }
-   }
-   */
-  
-  
-  // MARK: - Navigation
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    let navigationController = segue.destination as! UINavigationController
-    let addBirthdayViewController = navigationController.topViewController as! AddBirthdayViewController
-    addBirthdayViewController.delegate = self
+  // Override to support conditional editing of the table view.
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    // Return false if you do not want the specified item to be editable.
+    return true
   }
   
-  
-  // MARK: - AddBirthdayViewControllerDelegate
-  func addBirthdayViewController(_ addBirthdayViewController: AddBirthdayViewController, didAddBirthday birthday: Birthday) {
-    birthdays.append(birthday)
-    tableView.reloadData()
+  // Override to support editing the table view.
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    if birthdays.count > indexPath.row {
+      let birthday = birthdays[indexPath.row]
+      
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      let context = appDelegate.persistentContainer.viewContext
+      context.delete(birthday)
+      birthdays.remove(at: indexPath.row)
+      do {
+        try context.save()
+      } catch let error {
+        print("Не удалось сохранить из-за ошибки \(error).")
+      }
+      tableView.deleteRows(at: [indexPath], with: .fade)
+    }
   }
+  
 }
