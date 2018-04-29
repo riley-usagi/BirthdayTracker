@@ -13,6 +13,7 @@
 		BF93AB742094D27C004C481F /* BirthdayTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BF93AB722094D27C004C481F /* BirthdayTracker.xcdatamodeld */; };
 		BF93AB762094D27D004C481F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF93AB752094D27D004C481F /* Assets.xcassets */; };
 		BF93AB792094D27D004C481F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF93AB772094D27D004C481F /* LaunchScreen.storyboard */; };
+		BFB65A6B209586E40055A74E /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB65A6A209586E40055A74E /* Birthday.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		BF93AB752094D27D004C481F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF93AB782094D27D004C481F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF93AB7A2094D27D004C481F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFB65A6A209586E40055A74E /* Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				BF93AB772094D27D004C481F /* LaunchScreen.storyboard */,
 				BF93AB7A2094D27D004C481F /* Info.plist */,
 				BF93AB722094D27C004C481F /* BirthdayTracker.xcdatamodeld */,
+				BFB65A6A209586E40055A74E /* Birthday.swift */,
 			);
 			path = BirthdayTracker;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFB65A6B209586E40055A74E /* Birthday.swift in Sources */,
 				BF93AB6E2094D27C004C481F /* ViewController.swift in Sources */,
 				BF93AB742094D27C004C481F /* BirthdayTracker.xcdatamodeld in Sources */,
 				BF93AB6C2094D27C004C481F /* AppDelegate.swift in Sources */,
